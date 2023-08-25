@@ -1,4 +1,5 @@
 # MobX 사용하여 Counter App 만들기
+[MobX 관련 Tistory 정리 바로보기](https://eunsoly.tistory.com/73)
 
 1. 설치
 
