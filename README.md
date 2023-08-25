@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# MobX 사용하여 Counter App 만들기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. 설치
 
-## Available Scripts
+```
+npm i mobx
+```
 
-In the project directory, you can run:
+2. 애플레키에션 상태 모델링
 
-### `npm start`
+```
+makeObservable(this,{})
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> makeObservable : 속성(property), 모든 객체 , 배열, map과 set은 observable로 설정될 수 있다. 객체를 observable로 만드는 가장 기본적인 방법은 makeObservable을 사용하여 속성마다 주석을 지정하는 것이다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![Modeling](./public/ReadmeImage/Modeling.png)
 
-### `npm test`
+> observable : state를 저장하고 추적가능한 필드를 정의한다.  
+> action : state를 수정하는 메서드를 표시한다.  
+> computed : state로 부터 새로운 사실을 도출하고 그결괏값을 캐시하는 getter를 나타낸다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. 컨포넌트에서 사용할 수 있도록 내려주기
+   ![Store](./public/ReadmeImage/Store.png)
 
-### `npm run build`
+4. 사용자 인터페이스 생성 및 store연결 확인
+   ![UI](./public/ReadmeImage/UI.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. 아래와 같은 porps의 메서드 전달로만은 제대로 작동하지 않음
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   > 이유는? conuter를 사용하는 컴포넌트가 실제 값이 변경되고 있는 store를 구독하고 있지 않기 때문  
+   > ![notSubscribe](./public/ReadmeImage/notSubscribe.png)  
+   > observer를 사용하여 컴포넌트가 store를 구독한 상태를 만들어 줘야한다
+   >
+   > ### observer를 사용을 위해 mobx-react 또는 mobx-react-lite 라이브러리를 설치필요
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```
+   npm i mobx-react
+   ```
 
-### `npm run eject`
+   ![observer](./public/ReadmeImage/observer.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   > observer : Observer Hoc는 렌더링 중에 사용되는 모든 Observer에 React 구성 요소를 자동으로 구독, 결과적으로 관련 Observer 항목이 변경되면 Componenet가 자동으로 다시 렌더링 되고 관련 변경사항이 없을 땐 Componenet가 재렌더링 되지 않는다. 따라서 Compoenet에서 접근 할 수 있지만 실제로 읽지 않는 Observable은 재렌더링 되지 않는다.
