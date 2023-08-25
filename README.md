@@ -41,3 +41,38 @@ makeObservable(this,{})
    ![observer](./public/ReadmeImage/observer.png)
 
    > observer : Observer Hoc는 렌더링 중에 사용되는 모든 Observer에 React 구성 요소를 자동으로 구독, 결과적으로 관련 Observer 항목이 변경되면 Componenet가 자동으로 다시 렌더링 되고 관련 변경사항이 없을 땐 Componenet가 재렌더링 되지 않는다. 따라서 Compoenet에서 접근 할 수 있지만 실제로 읽지 않는 Observable은 재렌더링 되지 않는다.
+
+---
+
+### context함께 사용해서 하위 컴포넌트에 store전달 효율성 늘려주기
+
+context를 함께 사용하는게 왜 좋을까?  
+여러 컴포넌트에서 사용시 반복적으로 store를 내려줘야하는 상황이 발생  
+![component](./public/ReadmeImage/component.png)
+
+때문에 Reactcontext를 사용하여 Provider로 감싸진 하위 트리 컴포넌트에 observable를 공유할 수 있기 때문에 효율성 증가
+
+1. context생성
+   ![context](./public/ReadmeImage/context.png)
+
+2. context.Provider을 사용하여 하위 트리로 전달
+   ![Provider](./public/ReadmeImage/Provider.png)
+
+3. 컴포넌트에서 사용하기
+   ![App.js](./public/ReadmeImage/App.js.png)
+
+context에서 Store에 있는 value 사용하기 위한 Hooks를 설정하여 내려주기 가능
+
+```
+// counterContext.js
+const { createContext } = require("react");
+
+export const CounterContext = createContext();
+export const useCounterStore = ()=> useContext(CounterContext)
+
+// App.js
+import {useCounterStore} from "./context/counterContext"
+const myCounter = useCounterStore();
+```
+
+> 위의 코드처럼도 사용가능

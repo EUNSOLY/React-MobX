@@ -1,9 +1,11 @@
 import "./App.css";
 import { observer } from "mobx-react";
+import { CounterContext } from "./context/counterContext";
+import { useContext } from "react";
 
-function App(props) {
-  const { myCounter } = props;
-  console.log(myCounter);
+function App() {
+  const myCounter = useContext(CounterContext);
+
   return (
     <div className="App" style={{ textAlign: "center", padding: 16 }}>
       카운트 : {myCounter.count}
